@@ -15,7 +15,7 @@ public class Server {
 
     // The set of all the print writers for all the clients, used for broadcast.
     private static Set<PrintWriter> writers = new HashSet<>();
-    private static final String[] VALID_IDS = {"id111", "id112"};
+    private static final String[] VALID_IDS = {"id111", "id112", "id113"};
 
     public Server() {
         System.out.println("The chat server is running...");
@@ -82,17 +82,15 @@ public class Server {
                     }else{
                         counter -= s.getAmount();
                     }
-                    out.println("Current counter: " + counter);
-                    Thread.sleep(delay* 1000L);
+                   out.println("Current counter: " + counter);
+                    Thread.sleep(delay * 1000L);
                 }
                 // Accept messages from this client and broadcast them.
                 while (true) {
                     String input = in.nextLine();
-                    if (input.toLowerCase().startsWith("/quit")) {
+                    if (input.toLowerCase().startsWith("quit")) {
+                        socket.close();
                         return;
-                    }
-                    for (PrintWriter writer : writers) {
-                        writer.println("MESSAGE " + id + ": " + input);
                     }
                 }
             } catch (Exception e) {
