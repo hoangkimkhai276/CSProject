@@ -87,6 +87,7 @@ public class Server {
                 }
                 // Accept messages from this client and broadcast them.
                 while (true) {
+                    System.out.println("a");
                     String input = in.nextLine();
                     if (input.toLowerCase().startsWith("quit")) {
                         socket.close();
