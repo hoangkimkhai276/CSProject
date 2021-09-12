@@ -71,6 +71,7 @@ public class Server {
                                 socket.close();
                                 return;
                             }
+                            break;
                         }
                         break;
                     }
