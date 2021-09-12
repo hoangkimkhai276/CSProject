@@ -6,7 +6,7 @@ public class Main {
         if (choice == 1) {
             new Server();
         } else {
-            Client client = new Client("id113");
+            Client client = new Client("id111");
             client.run();
         }
     }

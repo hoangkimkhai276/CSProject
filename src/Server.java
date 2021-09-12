@@ -2,16 +2,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 
 public class Server {
 
     // All client names, so we can check for duplicates upon registration.
-    private static Set<String> ids = new HashSet<>();
+    private static HashMap<String, String> ids = new HashMap<>();
 
     // The set of all the print writers for all the clients, used for broadcast.
     private static Set<PrintWriter> writers = new HashSet<>();
@@ -65,10 +62,17 @@ public class Server {
                         account = AccountFactory.makeAccount(id);
                     }
                     synchronized (ids) {
-                        if (!id.isBlank() && !ids.contains(id)) {
-                            ids.add(id);
-                            break;
+                        String password = account.getPassword();
+                        if (!ids.containsKey(id)) {
+                            ids.put(id, password);
+                        } else {
+                            if (!ids.get(id).equals(password)) {
+                                System.out.println("Error: Invalid ID");
+                                socket.close();
+                                return;
+                            }
                         }
+                        break;
                     }
                 }
 
@@ -89,9 +93,9 @@ public class Server {
                 }
                 // Accept messages from this client and broadcast them.
                 while (true) {
-                    System.out.println("Log out");
                     String input = in.nextLine();
                     if (input.toLowerCase().startsWith("quit")) {
+                        System.out.println("Log out");
                         ids.remove(id);
                         socket.close();
                         return;

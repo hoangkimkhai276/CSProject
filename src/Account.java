@@ -27,4 +27,6 @@ public class Account implements Serializable {
     public int getDelay() {
         return delay;
     }
+
+    public String getPassword() { return password; }
 }
