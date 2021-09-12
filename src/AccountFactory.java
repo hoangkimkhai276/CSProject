@@ -14,7 +14,7 @@ public class AccountFactory {
 
     static {
         try {
-            reader = new FileReader("D:\\Java\\CSProject\\src\\clients.json");
+            reader = new FileReader("src\\clients.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

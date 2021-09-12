@@ -15,10 +15,9 @@ public class Server {
 
     // The set of all the print writers for all the clients, used for broadcast.
     private static Set<PrintWriter> writers = new HashSet<>();
-    private static final String[] VALID_IDS = {"id111", "id112", "id113"};
 
     public Server() {
-        System.out.println("The chat server is running...");
+        System.out.println("The server is running...");
         var pool = Executors.newFixedThreadPool(500);
         try (var listener = new ServerSocket(59001)) {
             while (true) {
@@ -50,17 +49,20 @@ public class Server {
                 while (true) {
                     id = in.nextLine();
                     boolean isValid = false;
-                    for (String id : VALID_IDS) {
-                        if (this.id.equals(id)) {
-                            isValid = true;
-                            account = AccountFactory.makeAccount(id);
-                            break;
+                    if (id.startsWith("id") && id.length() == 5) {
+                        isValid = true;
+                        try {
+                            double d = Double.parseDouble(id.substring(2));
+                        } catch (NumberFormatException e) {
+                            isValid = false;
                         }
                     }
                     if (!isValid) {
                         System.out.println("Error: Invalid ID");
                         socket.close();
                         return;
+                    } else {
+                        account = AccountFactory.makeAccount(id);
                     }
                     synchronized (ids) {
                         if (!id.isBlank() && !ids.contains(id)) {
@@ -87,9 +89,10 @@ public class Server {
                 }
                 // Accept messages from this client and broadcast them.
                 while (true) {
-                    System.out.println("a");
+                    System.out.println("Log out");
                     String input = in.nextLine();
                     if (input.toLowerCase().startsWith("quit")) {
+                        ids.remove(id);
                         socket.close();
                         return;
                     }
