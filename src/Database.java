@@ -17,7 +17,7 @@ public class Database {
     static ArrayList<String> validIds = new ArrayList<>();
     static {
         try {
-            reader = new FileReader("src\\clients.json");
+            reader = new FileReader("src/clients.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
