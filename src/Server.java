@@ -61,16 +61,17 @@ public class Server {
                         }
                         try {
                             double d = Double.parseDouble(id.substring(2));
+                            isRightFormat = true;
                         } catch (NumberFormatException e) {
                             isValid = false;
                         }
                     }
                     if (!isValid) {
                         out.println("Error: Invalid ID");
-                        if(!isExist){
-                            out.println("[ID NOT FOUND] in Database, please try again");
-                        }else{
+                        if(!isRightFormat){
                             out.println("[WRONG FORMAT] Please provide another id in format 'idxxx', Where xxx are numeric\n");
+                        }else{
+                            out.println("[ID NOT FOUND] in Database, please try again");
                         }
                     } else {
                         account = AccountFactory.makeAccount(id);
