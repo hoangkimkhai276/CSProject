@@ -66,7 +66,6 @@ public class AccountFactory {
         Step[] steps = getStepsFromJson(stepsJson);
 
         Account account = new Account(id, password, serverIp, serverPort, delay, steps);
-        System.out.println(account);
 
         return account;
     }

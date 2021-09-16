@@ -85,11 +85,8 @@ public class Server {
                 }
 
                 out.println("IDACCEPTED " + id);
-                System.out.println(account);
                 Step[] steps = account.getSteps();
                 int delay = account.getDelay();
-                System.out.println("Steps and delay");
-                System.out.println(Arrays.toString(steps) + " " + delay);
                 for (Step s : steps){
                     if (s.isIncrease()){
                         counter += s.getAmount();
