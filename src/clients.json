@@ -7,7 +7,7 @@
       "port": "4444"
     },
     "actions": {
-      "delay": " DELAY IN 2 SECONDS ",
+      "delay": "2",
       "steps": [
         "INCREASE 5",
         "DECREASE 3",
@@ -25,7 +25,7 @@
       "port": "4444"
     },
     "actions": {
-      "delay": " DELAY IN 4 SECONDS ",
+      "delay": "4",
       "steps": [
         "DECREASE 4",
         "DECREASE 4",
@@ -43,7 +43,7 @@
       "port": "4444"
     },
     "actions": {
-      "delay": " DELAY IN 1 SECONDS ",
+      "delay": "1",
       "steps": [
         "INCREASE 1",
         "DECREASE 1",

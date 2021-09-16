@@ -25,6 +25,9 @@ public class Server {
         }
     }
 
+    public Server(ArrayList<String> validIds) {
+    }
+
     private static class Handler implements Runnable {
         private String id;
         private Socket socket;
@@ -44,10 +47,18 @@ public class Server {
 
                 // Keep requesting a name until we get a unique one.
                 while (true) {
-                    id = in.nextLine();
+                    boolean isExist = false;
+                    boolean isRightFormat = false;
                     boolean isValid = false;
+                    id = in.nextLine();
                     if (id.startsWith("id") && id.length() == 5) {
-                        isValid = true;
+                        for (String validId : Database.validIds) {
+                            if (id.equals(validId)) {
+                                isValid = true;
+                                isExist = true;
+                                break;
+                            }
+                        }
                         try {
                             double d = Double.parseDouble(id.substring(2));
                         } catch (NumberFormatException e) {
@@ -55,25 +66,28 @@ public class Server {
                         }
                     }
                     if (!isValid) {
-                        System.out.println("Error: Invalid ID");
-                        socket.close();
-                        return;
+                        out.println("Error: Invalid ID");
+                        if(!isExist){
+                            out.println("[ID NOT FOUND] in Database, please try again");
+                        }else{
+                            out.println("[WRONG FORMAT] Please provide another id in format 'idxxx', Where xxx are numeric\n");
+                        }
                     } else {
                         account = AccountFactory.makeAccount(id);
-                    }
-                    synchronized (ids) {
-                        String password = account.getPassword();
-                        if (!ids.containsKey(id)) {
-                            ids.put(id, password);
-                        } else {
-                            if (!ids.get(id).equals(password)) {
-                                System.out.println("Error: Invalid ID");
-                                socket.close();
-                                return;
+                        synchronized (ids) {
+                            String password = account.getPassword();
+                            if (!ids.containsKey(id)) {
+                                ids.put(id, password);
+                            } else {
+                                if (!ids.get(id).equals(password)) {
+                                    System.out.println("Error: Invalid ID");
+                                    socket.close();
+                                    return;
+                                }
+                                break;
                             }
                             break;
                         }
-                        break;
                     }
                 }
 

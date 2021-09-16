@@ -15,7 +15,7 @@ public class Client {
     Scanner in;
     PrintWriter out;
     String id;
-    JFrame frame = new JFrame("Chatter");
+    JFrame frame = new JFrame("Log");
     JTextField textField = new JTextField(50);
     JTextArea messageArea = new JTextArea(16, 50);
     public Client(String id) {
@@ -51,7 +51,9 @@ public class Client {
             out = new PrintWriter(socket.getOutputStream(), true);
             out.println(getId());
             while (in.hasNextLine()) {
-                System.out.println(in.nextLine());
+                var line = in.nextLine();
+                System.out.println(line);
+                messageArea.append(line + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
