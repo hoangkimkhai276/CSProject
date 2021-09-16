@@ -7,10 +7,8 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    // All client names, so we can check for duplicates upon registration.
     private static HashMap<String, String> ids = new HashMap<>();
 
-    // The set of all the print writers for all the clients, used for broadcast.
     private static Set<PrintWriter> writers = new HashSet<>();
 
     public Server() {
@@ -23,9 +21,6 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public Server(ArrayList<String> validIds) {
     }
 
     private static class Handler implements Runnable {
@@ -47,7 +42,6 @@ public class Server {
 
                 // Keep requesting a name until we get a unique one.
                 while (true) {
-                    boolean isExist = false;
                     boolean isRightFormat = false;
                     boolean isValid = false;
                     id = in.nextLine();
@@ -55,7 +49,6 @@ public class Server {
                         for (String validId : Database.validIds) {
                             if (id.equals(validId)) {
                                 isValid = true;
-                                isExist = true;
                                 break;
                             }
                         }
@@ -71,7 +64,7 @@ public class Server {
                         if(!isRightFormat){
                             out.println("[WRONG FORMAT] Please provide another id in format 'idxxx', Where xxx are numeric\n");
                         }else{
-                            out.println("[ID NOT FOUND] in Database, please try again");
+                            out.println("[ID NOT FOUND] in Database, please try again\n");
                         }
                     } else {
                         account = AccountFactory.makeAccount(id);
@@ -85,7 +78,6 @@ public class Server {
                                     socket.close();
                                     return;
                                 }
-                                break;
                             }
                             break;
                         }
@@ -115,6 +107,16 @@ public class Server {
                         ids.remove(id);
                         socket.close();
                         return;
+                    }else{
+                        if(input.toLowerCase().startsWith("increase")){
+                            String[] increase = input.split(" ");
+                            counter += Integer.parseInt(increase[1]);
+                            out.println("Current counter: " + counter);
+                        }else if( input.toLowerCase().startsWith("decrease")){
+                            String[] increase = input.split(" ");
+                            counter -= Integer.parseInt(increase[1]);
+                            out.println("Current counter: " + counter);
+                        }
                     }
                 }
             } catch (Exception e) {
