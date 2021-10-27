@@ -1,7 +1,8 @@
+package group5;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,7 +15,7 @@ public class AccountFactory {
 
     static {
         try {
-            reader = new FileReader("src/clients.json");
+            reader = new FileReader("src\\group5\\clients.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

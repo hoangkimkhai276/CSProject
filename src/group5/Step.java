@@ -1,3 +1,5 @@
+package group5;
+
 public class Step {
     private boolean isIncrease;
     private double amount;
