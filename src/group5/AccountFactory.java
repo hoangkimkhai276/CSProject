@@ -53,12 +53,12 @@ public class AccountFactory {
     }
 
     private static Account makeAccount(JSONObject object) {
-        String id = (String) object.get("id");
-        String password = (String) object.get("password");
-        String serverIp = (String)((JSONObject) object.get("server")).get("ip");
-        String serverPort = (String)((JSONObject) object.get("server")).get("port");
+        String id =  getTag("id",object);
+        String password = getTag("password",object);
+        String serverIp = getTag("ip",(JSONObject) object.get("server"));
+        String serverPort = getTag("port",(JSONObject) object.get("server"));
         JSONObject actions =(JSONObject) object.get("actions");
-        String delayString = (String) actions.get("delay");
+        String delayString = getTag("delay",actions);
 
         int delay = getDelaySecondFromString(delayString);
 
@@ -91,6 +91,17 @@ public class AccountFactory {
         return Integer.parseInt(seconds[0]);
     }
 
+    private static String getTag(String tag, JSONObject object){
+        String value = (String) object.get(tag);
+        if (value == null){
+            try {
+                throw  new WrongJsonFormatException("Tag not found");
+            } catch (WrongJsonFormatException wrongJsonFormatException) {
+                wrongJsonFormatException.printStackTrace();
+            }
+        }
+        return value;
+    }
 }
 
 
